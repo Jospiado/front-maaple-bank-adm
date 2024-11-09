@@ -42,25 +42,27 @@ export class ClientListComponent implements OnInit {
     this.loadClients();
   }
 
-  // Carregar lista de clientes do localStorage ou do backend
   loadClients(): void {
+    this.isLoading = true; // Inicia o carregamento
     const storedClients = localStorage.getItem('clients');
 
     if (storedClients) {
       this.clients = JSON.parse(storedClients);
+      this.isLoading = false; // Carregamento concluído
     } else {
       this.clientService.getClients().subscribe(
         (data) => {
           this.clients = data;
-          localStorage.setItem('clients', JSON.stringify(this.clients)); // Salva os dados no localStorage
+          localStorage.setItem('clients', JSON.stringify(this.clients));
+          this.isLoading = false; // Carregamento concluído
         },
         (error) => {
           this.toastr.error('Erro ao carregar lista de clientes.', 'Erro');
+          this.isLoading = false; // Carregamento concluído mesmo com erro
         }
       );
     }
   }
-
   // Navegar para a edição do cliente
   editClient(clientId: string): void {
     this.router.navigate(['/clients/edit', clientId]);
