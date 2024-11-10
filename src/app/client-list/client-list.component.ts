@@ -39,7 +39,7 @@ export class ClientListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.loadClients();
+    this.loadClients();
   }
 
   loadClients(): void {
